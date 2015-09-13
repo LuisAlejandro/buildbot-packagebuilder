@@ -4,9 +4,12 @@
 import os
 import pwd
 
-from buildbot.plugins.util import Interpolate
+from buildbot.plugins import util
+
+Interpolate = util.Interpolate
 
 sudo = '/usr/bin/sudo'
+rsync = '/usr/bin/rsync'
 cowbuilder = '/usr/sbin/cowbuilder'
 gbp = '/usr/bin/gbp'
 bash = '/bin/bash'
@@ -56,7 +59,6 @@ distribution = Interpolate('%(prop:distribution)s')
 package = Interpolate('%(prop:package)s')
 repository = Interpolate('%(prop:repository)s')
 branch = Interpolate('%(prop:branch)s')
-pre_build_script = Interpolate('su '+username+' -s /bin/bash -c "cd '+source_dir.fmtstring+' && %(prop:prebuild-script)s"')
 pre_build_deps = Interpolate('%(prop:prebuild-deps)s')
 
 base_cow_env = {'CCACHE_DIR': ccache_dir,

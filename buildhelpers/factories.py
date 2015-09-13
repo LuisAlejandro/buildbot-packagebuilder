@@ -1,9 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from buildbot.plugins.util import BuildFactory, Property
-from buildbot.plugins.steps import (SetPropertyFromCommand, ShellCommand, Git,
-                                    MultipleFileUpload, MasterShellCommand)
+from buildbot.plugins import util, steps
+
 from buildhelpers.commands import (
     test_dpkg_lock, sudo_apt_get_install_slave_extrapackages,
     cowbuilder_create_base_cow_dir, test_base_cow_dir,
@@ -23,6 +22,15 @@ from buildhelpers.common import (
     pre_build_script_exists, debian_control_exists_not)
 from buildhelpers.config import (base_cow_env, incoming_dir, source_dir,
                                  repository, branch, username)
+
+BuildFactory = util.BuildFactory
+Property = util.Property
+SetPropertyFromCommand = steps.SetPropertyFromCommand
+ShellCommand = steps.ShellCommand
+Git = steps.Git
+MultipleFileUpload = steps.MultipleFileUpload
+MasterShellCommand = steps.MasterShellCommand
+
 
 # Build factories
 

@@ -1,8 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from buildbot.plugins.util import Interpolate
+from buildbot.plugins import util
 
+Interpolate = util.Interpolate
 
 def mkcmd(cmd):
     return Interpolate(' '.join(cmd))

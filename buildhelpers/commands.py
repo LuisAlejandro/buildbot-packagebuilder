@@ -4,10 +4,10 @@
 from buildhelpers.common import mkcmd
 from buildhelpers.config import (
     reprepro, reprepro_dir, incoming_dir, dpkg_lock, base_cow_dir,
-    package_cow_dir, source_dir, sudo, rsync, username, bash, make, apt_get,
-    apt_get_options, userid, useradd, cowbuilder, architecture, distribution,
-    mirror, git_checkout_dir, ccache_dir, gbp, package, checkinstall,
-    pre_build_deps, base_cow_extrapackages, slave_extrapackages,
+    package_cow_dir, source_dir, sudo, rsync, username, bash,
+    make, apt_get, apt_get_options, userid, useradd, cowbuilder, architecture,
+    distribution, mirror, git_checkout_dir, ccache_dir, gbp, package,
+    checkinstall, pre_build_deps, base_cow_extrapackages, slave_extrapackages,
     parent_source_dir, mk_build_deps)
 
 
@@ -48,6 +48,10 @@ checkinstall = mkcmd(['cd', source_dir.fmtstring, '&&',
 # Commands inside a slave cowbuilder as the buildbot user
 # passed through stdin to cowbuilder --login
 
+pre_build_script = mkcmd(['su', username, '-s', bash, '-c',
+                          '"cd', source_dir.fmtstring, '&&',
+                          '%(prop:prebuild-script)s"'])
+
 configure = mkcmd(['su', username, '-s', bash, '-c',
                    '"cd', source_dir.fmtstring, '&&', './configure"'])
 
@@ -57,15 +61,15 @@ make = mkcmd(['su', username, '-s', bash, '-c',
 
 # Commands in slave
 
-test_deb_results = mkcmd(['find', parent_source_dir+'/*.deb',
+test_deb_results = mkcmd(['find', parent_source_dir.fmtstring+'/*.deb',
                           '-maxdepth', '1', '-type', 'f',
-                          '-printf', '"%p\n"'])
+                          '-printf', '"%%p\n"'])
 
 test_dpkg_lock = mkcmd(['test', '-e', dpkg_lock])
 
-test_base_cow_dir = mkcmd(['test', '-e', base_cow_dir])
+test_base_cow_dir = mkcmd(['test', '-e', base_cow_dir.fmtstring])
 
-test_package_cow_dir = mkcmd(['test', '-e', package_cow_dir])
+test_package_cow_dir = mkcmd(['test', '-e', package_cow_dir.fmtstring])
 
 test_debian_control = mkcmd(['test', '-e',
                              source_dir.fmtstring+'/debian/control'])
@@ -77,35 +81,35 @@ test_configure = mkcmd(['test', '-e', source_dir.fmtstring+'/configure'])
 rsync_base_package = mkcmd([sudo, rsync, '-a', base_cow_dir.fmtstring+'/',
                             package_cow_dir.fmtstring])
 
-sudo_apt_get_update = mkcmd(sudo, apt_get_update.fmtstring)
+sudo_apt_get_update = mkcmd([sudo, apt_get_update.fmtstring])
 
-sudo_apt_get_dist_upgrade = mkcmd(sudo, apt_get_dist_upgrade.fmtstring)
+sudo_apt_get_dist_upgrade = mkcmd([sudo, apt_get_dist_upgrade.fmtstring])
 
-sudo_apt_get_install_base_cow_extrapackages = mkcmd(
-    sudo, apt_get_install_base_cow_extrapackages.fmtstring)
+sudo_apt_get_install_base_cow_extrapackages = mkcmd([
+    sudo, apt_get_install_base_cow_extrapackages.fmtstring])
 
-sudo_apt_get_install_slave_extrapackages = mkcmd(
-    sudo, apt_get_install_slave_extrapackages.fmtstring)
+sudo_apt_get_install_slave_extrapackages = mkcmd([
+    sudo, apt_get_install_slave_extrapackages.fmtstring])
 
 cowbuilder_create_base_cow_dir = mkcmd([
     sudo, cowbuilder, '--create',
-    '--basepath', base_cow_dir,
-    '--architecture', architecture,
-    '--distribution', distribution,
+    '--basepath', base_cow_dir.fmtstring,
+    '--architecture', architecture.fmtstring,
+    '--distribution', distribution.fmtstring,
     '--aptcache', '""',
     '--components', 'main',
     '--mirror', mirror])
 
 cowbuilder_login_base_cow_dir = mkcmd([
     sudo, cowbuilder, '--login',
-    '--basepath', base_cow_dir,
+    '--basepath', base_cow_dir.fmtstring,
     '--aptcache', '""',
     '--bindmounts', '"'+git_checkout_dir+' '+ccache_dir+'"',
     '--save-after-login'])
 
 cowbuilder_login_package_cow_dir = mkcmd([
     sudo, cowbuilder, '--login',
-    '--basepath', package_cow_dir,
+    '--basepath', package_cow_dir.fmtstring,
     '--aptcache', '""',
     '--bindmounts', '"'+git_checkout_dir+' '+ccache_dir+'"',
     '--save-after-login'])
@@ -116,6 +120,6 @@ git_buildpackage = mkcmd([
     '--git-ignore-new',
     '--git-no-create-orig',
     '--git-pbuilder',
-    '--git-dist', 'buildbot-'+package.fmtstring+'_slave-'+distribution.fmtstring,
-    '--git-arch', architecture.fmtstring,
+    '--git-dist=buildbot-'+package.fmtstring+'_slave-'+distribution.fmtstring,
+    '--git-arch='+architecture.fmtstring,
     '-us', '-uc', '-nc', '-d', '-b'])
