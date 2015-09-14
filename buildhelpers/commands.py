@@ -122,4 +122,4 @@ git_buildpackage = mkcmd([
     '--git-pbuilder',
     '--git-dist=buildbot-'+package.fmtstring+'_slave-'+distribution.fmtstring,
     '--git-arch='+architecture.fmtstring,
-    '-us', '-uc', '-nc', '-d', '-b'])
+    '-us', '-uc', '-nc', '-d'])

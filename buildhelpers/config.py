@@ -8,13 +8,17 @@ from buildbot.plugins import util
 
 Interpolate = util.Interpolate
 
+
+periodic_build_timer = 24*60*60
+git_poller_interval = 5*60
+
 sudo = '/usr/bin/sudo'
 rsync = '/usr/bin/rsync'
 cowbuilder = '/usr/sbin/cowbuilder'
 gbp = '/usr/bin/gbp'
 bash = '/bin/bash'
-make = '/usr/sbin/make'
-checkinstall = '/usr/sbin/checkinstall'
+make = '/usr/bin/make'
+checkinstall = '/usr/bin/checkinstall'
 useradd = '/usr/sbin/useradd'
 reprepro = '/usr/bin/reprepro'
 apt_get = '/usr/bin/apt-get'
