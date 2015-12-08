@@ -1,20 +1,32 @@
 {
-    "folders":
-    [
-        {
-            "follow_symlinks": true,
-            "path": ".."
-        }
-    ],
-    "settings":
-    {
-        "tab_size": 4,
-        "rulers": [80],
-        "detect_indentation": false,
-        "shift_tab_unindent": true,
-        "translate_tabs_to_spaces": true,
-        "trim_trailing_white_space_on_save": true,
-        "ensure_newline_at_eof_on_save": true,
-        "save_on_focus_lost": true
-    }
+	"build_systems":
+	[
+		{
+			"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+			"name": "Anaconda Python Builder",
+			"selector": "source.python",
+			"shell_cmd": "python -u \"$file\""
+		}
+	],
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": ".."
+		}
+	],
+	"settings":
+	{
+		"detect_indentation": false,
+		"ensure_newline_at_eof_on_save": true,
+		"rulers":
+		[
+			80
+		],
+		"save_on_focus_lost": true,
+		"shift_tab_unindent": true,
+		"tab_size": 4,
+		"translate_tabs_to_spaces": true,
+		"trim_trailing_white_space_on_save": true
+	}
 }

@@ -78,6 +78,8 @@ test_makefile = mkcmd(['test', '-e', source_dir.fmtstring+'/Makefile'])
 
 test_configure = mkcmd(['test', '-e', source_dir.fmtstring+'/configure'])
 
+cat_deb_version = mkcmd(['dpkg-parsechangelog', '--show-field', 'Version'])
+
 rsync_base_package = mkcmd([sudo, rsync, '-a', base_cow_dir.fmtstring+'/',
                             package_cow_dir.fmtstring])
 

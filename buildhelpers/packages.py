@@ -13,7 +13,7 @@ packages = {
         'repository': 'https://github.com/majn/telegram-purple.git',
         'branch': 'master',
         'prebuild-script': 'git reset --hard && git clean -fxd',
-        'prebuild-deps': 'git libssl-dev libglib2.0-dev libpurple-dev libwebp-dev'
+        'prebuild-deps': 'git libssl-dev libglib2.0-dev libpurple-dev libwebp-dev libgcrypt-dev'
     },
     'whatsapp-purple': {
         'repository': 'https://github.com/davidgfnet/whatsapp-purple.git',
