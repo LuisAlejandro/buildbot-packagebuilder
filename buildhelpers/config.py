@@ -23,6 +23,11 @@ useradd = '/usr/sbin/useradd'
 reprepro = '/usr/bin/reprepro'
 apt_get = '/usr/bin/apt-get'
 mk_build_deps = '/usr/bin/mk-build-deps'
+test = '/usr/bin/test'
+grep = '/bin/grep'
+dpkg_parsechangelog = '/usr/bin/dpkg-parsechangelog'
+git = '/usr/bin/git'
+find = '/usr/bin/find'
 
 
 dpkg_lock = '/var/lib/dpkg/lock'
@@ -59,15 +64,19 @@ configure = Interpolate(source_dir.fmtstring+'/configure')
 
 architecture = Interpolate('%(prop:architecture)s')
 distribution = Interpolate('%(prop:distribution)s')
+version = Interpolate('%(prop:version)s')
+git_revision = Interpolate('%(prop:git_revision)s')
 
 package = Interpolate('%(prop:package)s')
 repository = Interpolate('%(prop:repository)s')
 branch = Interpolate('%(prop:branch)s')
 pre_build_deps = Interpolate('%(prop:prebuild-deps)s')
 
+
 base_cow_env = {'CCACHE_DIR': ccache_dir,
                 'PATH': '/usr/lib/ccache:${PATH}',
-                'LD_PRELOAD': 'libeatmydata.so:${LD_PRELOAD}',
+                'LD_LIBRARY_PATH': '/usr/lib/libeatmydata:${LD_LIBRARY_PATH}',
+                'LD_PRELOAD': 'libeatmydata.so ${LD_PRELOAD}',
                 'DEBIAN_FRONTEND': 'noninteractive'}
 
 apt_get_options = ['-o', 'Apt::Install-Recommends=false',
