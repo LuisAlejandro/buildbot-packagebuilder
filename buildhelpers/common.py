@@ -2,12 +2,36 @@
 # -*- coding: utf-8 -*-
 
 from buildbot.plugins import util
+from buildhelpers.config import (
+    sudo, source_dir, base_cow_env, su, username, bash)
 
 Interpolate = util.Interpolate
+precmd = []
+preenvcmd = ['cd', source_dir.fmtstring, '&&', 'export', base_cow_env, '&&']
+presudocmd = [sudo]
+presudoenvcmd = ['cd', source_dir.fmtstring, '&&', 'export', base_cow_env, '&&', sudo, '-E']
+preusercmd = ['cd', source_dir.fmtstring, '&&',
+              su, username, '-s', bash, '-c', "'export", base_cow_env, '&&']
 
 
 def mkcmd(cmd):
-    return Interpolate(' '.join(cmd))
+    return Interpolate(' '.join(precmd+cmd))
+
+
+def mkenvcmd(cmd):
+    return Interpolate(' '.join(preenvcmd+cmd))
+
+
+def mksudocmd(cmd):
+    return Interpolate(' '.join(presudocmd+cmd))
+
+
+def mksudoenvcmd(cmd):
+    return Interpolate(' '.join(presudoenvcmd+cmd))
+
+
+def mkusercmd(cmd):
+    return Interpolate(' '.join(preusercmd+cmd+["'"]))
 
 
 def deb_results_extract(rc, stdout, stderr):
@@ -109,7 +133,3 @@ def deb_version_extract(rc, stdout, stderr):
 
 def src_version_extract(rc, stdout, stderr):
     return {'version': stdout.split('=')[1].strip('\n').strip("'")}
-
-
-def git_revision_extract(rc, stdout, stderr):
-    return {'git_revision': stdout.strip('\n')[:7]}
