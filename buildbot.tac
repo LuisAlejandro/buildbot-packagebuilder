@@ -7,7 +7,7 @@ basedir = '.'
 
 rotateLength = 10000000
 maxRotatedFiles = 10
-configfile = 'master.cfg'
+configfile = 'master.py'
 
 # Default umask for server
 umask = None
