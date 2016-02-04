@@ -7,7 +7,7 @@ This project aims to assemble a binary (and source) package builder based on Bui
 
 Follow the instructions to configure django-packagebuilder for local packaging.
 
-###Steps for using Tribus Builder
+###Steps for using Django Package Builder
 
 1.- Install dependencies
 
@@ -15,7 +15,7 @@ Follow the instructions to configure django-packagebuilder for local packaging.
 
 2.- Clone the project.
 
-    git clone https://github.com/LuisAlejandro/tribus-builder.git
+    git clone https://github.com/LuisAlejandro/django-packagebuilder.git
 
 2.- Create a new user for buildbot.
 
