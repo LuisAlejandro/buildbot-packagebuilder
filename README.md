@@ -13,7 +13,7 @@ Follow the instructions to configure django-packagebuilder for local packaging.
 
         sudo aptitude install git virtualenv supervisor python2.7-dev apt-cacher reprepro pbuilder
 
-    <sub><sup>Another form of installing Virtualenv is through pip. Install the python-pip package and then execute *sudo pip install virtualenv*</sup></sub>
+    <sub>Another form of installing Virtualenv is through pip. Install the ``python-pip`` package and then execute ``sudo pip install virtualenv``.</sub>
 
 2. Create a new user for buildbot.
 
@@ -40,9 +40,8 @@ Follow the instructions to configure django-packagebuilder for local packaging.
 
 6. Create the buildbot slaves.
 
-        virtualenv/bin/buildslave create-slave --relocatable --umask=0022 slave-sid-i386 localhost:9989 slave-sid-i386 123
-        virtualenv/bin/buildslave create-slave --relocatable --umask=0022 slave-sid-amd64 localhost:9989 slave-sid-amd64 123
-
+        virtualenv/bin/buildslave create-slave --relocatable --umask=0022 slave-sid-i386 localhost:9989 slave-sid-i386 123456
+        virtualenv/bin/buildslave create-slave --relocatable --umask=0022 slave-sid-amd64 localhost:9989 slave-sid-amd64 123456
 
 7. Create the buildbot master.
 
@@ -78,6 +77,38 @@ Follow the instructions to configure django-packagebuilder for local packaging.
         EOF
         reprepro -b /var/cache/pbuilder/repo/ -VVV export
 
-10. Start the supervisor
+10. Restart the supervisor.
 
         sudo service supervisor restart
+
+
+### Configuration
+
+Open the file ``buildhelpers/packages.py`` and fill in as many packages as you want to build, according to the following:
+
+    packages = {
+        'package-name': {
+            'repository': '',
+            'branch': '',
+            'prebuild-script': '',
+            'prebuild-deps': ''
+        },
+        'package-name': {
+            'repository': '',
+            'branch': '',
+            'prebuild-script': '',
+            'prebuild-deps': ''
+        }
+
+        ...
+    }
+
+* ``package-name``: is the name of the package to be built.
+* ``repository``: a git repository where to find the package code.
+* ``branch``: the branch of the git repository to be built.
+* ``prebuild-script`` (optional): a script needed to be run before building.
+* ``prebuild-deps`` (optional): a list of packages needed by the prebuild-script or other parts of the building process (separated by spaces).
+
+Restart the supervisor after all changes have been made.
+
+    sudo service supervisor restart

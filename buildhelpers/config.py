@@ -47,7 +47,8 @@ username = pwd.getpwuid(os.getuid()).pw_name
 
 available_archs = ['i386', 'amd64']
 available_distros = ['sid']
-common_passwd = '123'
+common_passwd = '123456'
+
 slave_extrapackages = ['ccache', 'eatmydata', 'apt-cacher', 'cowbuilder',
                        'git-buildpackage', 'sudo']
 base_cow_extrapackages = ['ccache', 'eatmydata', 'devscripts', 'equivs',
