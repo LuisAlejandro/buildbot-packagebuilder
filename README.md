@@ -9,17 +9,21 @@ Follow the instructions to configure django-packagebuilder for local packaging.
 
 ### Steps for using Django Package Builder
 
-1. Install dependencies
+1. Install dependencies. Make sure all software is installed and no errors are thrown during instalation.
 
-        sudo aptitude install git virtualenv supervisor python2.7-dev apt-cacher reprepro
+        sudo aptitude install git virtualenv supervisor python2.7-dev apt-cacher reprepro pbuilder
+
+    <sub><sup>Another form of installing Virtualenv is through pip. Install the python-pip package and then execute *sudo pip install virtualenv*</sup></sub>
 
 2. Create a new user for buildbot.
 
         sudo adduser buildbot
 
-3. Configure sudo for the buildbot user. Put the following inside the ``/etc/sudoers.d/buildbot`` file (as root):
+3. Configure sudo for the buildbot user.
 
+        sudo cat << EOF > /etc/sudoers.d/buildbot
         buildbot ALL=(ALL) NOPASSWD:SETENV: ALL
+        EOF
 
 4. Create a virtualenv with proper dependencies.
 
@@ -45,8 +49,9 @@ Follow the instructions to configure django-packagebuilder for local packaging.
         git clone https://github.com/LuisAlejandro/django-packagebuilder.git master
         virtualenv/bin/buildbot upgrade-master master
 
-8. Configure supervisor daemon for buildbot. Put the following inside the ``/etc/supervisor/conf.d/buildbot.conf`` file (as root):
+8. Configure supervisor daemon for buildbot.
 
+        sudo cat << EOF > /etc/supervisor/conf.d/buildbot.conf
         [program:buildbot-master]
         command=/home/buildbot/buildbot/virtualenv/bin/buildbot restart --nodaemon /home/buildbot/buildbot/master/
         user=buildbot
@@ -58,12 +63,20 @@ Follow the instructions to configure django-packagebuilder for local packaging.
         [program:buildbot-slave-amd64]
         command=/home/buildbot/buildbot/virtualenv/bin/buildslave restart --nodaemon /home/buildbot/buildbot/slave-sid-amd64
         user=buildbot
+        EOF
 
 9. Create a new package repository for finished packages.
 
         mkdir -p /var/cache/pbuilder/repo/conf
-
-
+        cat << EOF > /var/cache/pbuilder/repo/conf/distributions
+        Origin: Local
+        Label: Local
+        Codename: local
+        Suite: local
+        Architectures: amd64 i386
+        Components: main
+        EOF
+        reprepro -b /var/cache/pbuilder/repo/ -VVV export
 
 10. Start the supervisor
 
