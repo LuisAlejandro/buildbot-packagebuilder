@@ -1,13 +1,11 @@
-Django Package Builder
+Buildbot Package Builder
 ======================
 
-Attention: This hasn't integrated with Django yet.
+This project aims to assemble a binary (and source) package builder based on Buildbot. For now it only builds debian packages compatible with Debian and its derivatives, but it will compile Fedora and Arch packages in the future.
 
-This project aims to assemble a binary (and source) package builder based on Buildbot and Django. For now it only builds debian packages compatible with Debian and its derivatives, but it will compile Fedora and Arch packages in the future.
+Follow the instructions to configure buildbot-packagebuilder for local packaging.
 
-Follow the instructions to configure django-packagebuilder for local packaging.
-
-### Steps for using Django Package Builder
+### Steps for using Buildbot Package Builder
 
 1. Install dependencies. Make sure all software is installed and no errors are thrown during instalation.
 
