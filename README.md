@@ -1,6 +1,12 @@
 Buildbot Package Builder
 ======================
 
+### Deprecation notice
+
+I no longer use this project because I now use Github actions for automatization.
+
+-----
+
 This project aims to assemble a binary (and source) package builder based on Buildbot. For now it only builds debian packages compatible with Debian and its derivatives, but it will compile Fedora and Arch packages in the future.
 
 Follow the instructions to configure buildbot-packagebuilder for local packaging.
